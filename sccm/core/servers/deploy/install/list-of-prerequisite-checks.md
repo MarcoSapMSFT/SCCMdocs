@@ -542,6 +542,7 @@ In a dedicated administrator connection query window, run the following commands
 ```SQL
 USE <ConfigMgr database name>
 EXEC spDiagChangeTracking
+GO
 ```
 
 Depending upon the size of your database and the backlog size, this stored procedure could run in a few minutes or several hours. When the query completes, you see two sections of data related to the backlog. First look at **CT_Days_Old**. This value tells you the age (days) of the oldest entry in your syscommittab table. It should be five days, which is the Configuration Manager default value. Don't change this default value. At times of heavy data processing or replication, the oldest entry in syscommittab could be over five days. If this value is above seven days, run a manual cleanup of change tracking data.  
@@ -551,6 +552,7 @@ To clean up the change tracking data, run the following command in the dedicated
 ```SQL
 USE <ConfigMgr database name>
 EXEC spDiagChangeTracking @CleanupChangeTracking = 1
+GO
 ```
 
 This command starts a cleanup of syscommittab and all of the associated side tables. It can run in several minutes or several hours. To monitor its progress, query the **vLogs** view. To see the current progress, run the following query: 
